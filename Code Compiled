@@ -1,0 +1,181 @@
+namespace DSA_Codes
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] array = { 21, 12, 31, 34, 15, 26, 75, 68, 39, 50, 41, 32 };
+            int tf = 26;
+            int place = 0;
+            //int low = 0;
+            //int high = array.Length - 1;
+            //BinarySearch(array, tf);
+            //BubbleSort(array);
+            //InsertionSort(array);
+            //InterpolationSearch(array, tf);
+            //MergeSort(array);
+            //QuickSort(array);
+            //SelectionSort(array);
+            //SequentialSearch(array,tf);
+
+            place = BinarySearch(array, tf);
+            Console.WriteLine(place);
+            MergeSort(array);
+            Console.WriteLine("Sorted array: " + string.Join(", ", array));
+            place = InterpolationSearch(array, tf);
+            Console.WriteLine(place);
+
+        }
+        public static int BinarySearch(int[] array, int key)
+        {
+            int low = 0;
+            int high = array.Length - 1;
+            while (low <= high)
+            {
+                int mid = (low + high) / 2;
+                if (array[mid] == key)
+                    return mid;
+                if (array[mid] < key)
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+            return -1;
+        }
+        public static void BubbleSort(int[] array)
+        {
+            int n = array.Length;
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = 0; j < n - i - 1; j++)
+                {
+                    if (array[j] > array[j + 1])
+                    {
+                        int temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+        public static void InsertionSort(int[] array)
+        {
+            int n = array.Length;
+            for (int i = 1; i < n; i++)
+            {
+                int key = array[i];
+                int j = i - 1;
+                while (j >= 0 && array[j] > key)
+                {
+                    array[j + 1] = array[j];
+                    j--;
+                }
+                array[j + 1] = key;
+            }
+        }
+
+        public static int InterpolationSearch(int[] array, int tf)
+        {
+            int low = 0;
+            int high = array.Length - 1;
+            while (low <= high && tf >= array[low] && tf <= array[high])
+            {
+                if (low == high)
+                {
+                    if (array[low] == tf) return low;
+                    return -1;
+                }
+                int pos = low + ((tf - array[low]) * (high - low) / (array[high] - array[low]));
+                if (array[pos] == tf)
+                    return pos;
+                if (array[pos] < tf)
+                    low = pos + 1;
+                else
+                    high = pos - 1;
+            }
+            return -1;
+        }
+        public static void MergeSort(int[] array)
+        {
+            if (array.Length <= 1) return;
+
+            int mid = array.Length / 2;
+            int[] left = array.Take(mid).ToArray();
+            int[] right = array.Skip(mid).ToArray();
+
+            MergeSort(left);
+            MergeSort(right);
+
+            Merge(array, left, right);
+        }
+
+        private static void Merge(int[] arr, int[] left, int[] right)
+        {
+            int i = 0, j = 0, k = 0;
+            while (i < left.Length && j < right.Length)
+                arr[k++] = (left[i] <= right[j]) ? left[i++] : right[j++];
+
+            while (i < left.Length)
+                arr[k++] = left[i++];
+
+            while (j < right.Length)
+                arr[k++] = right[j++];
+        }
+
+        public static void QuickSort(int[] array, int low, int high)
+        {
+            if (low < high)
+            {
+                int pi = Partition(array, low, high);
+                QuickSort(array, low, pi - 1);
+                QuickSort(array, pi + 1, high);
+            }
+        }
+
+        private static int Partition(int[] array, int low, int high)
+        {
+            int pivot = array[high];
+            int i = (low - 1);
+            for (int j = low; j < high; j++)
+            {
+                if (array[j] < pivot)
+                {
+                    i++;
+                    int temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
+            int temp1 = array[i + 1];
+            array[i + 1] = array[high];
+            array[high] = temp1;
+            return i + 1;
+        }
+        public static void SelectionSort(int[] array)
+        {
+            int n = array.Length;
+            for (int i = 0; i < n - 1; i++)
+            {
+                int minIndex = i;
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (array[j] < array[minIndex])
+                        minIndex = j;
+                }
+                int temp = array[minIndex];
+                array[minIndex] = array[i];
+                array[i] = temp;
+            }
+        }
+        public static int SequentialSearch(int[] array, int tf)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == tf)
+                    return i;
+            }
+            return -1;
+        }
+    }
+}
