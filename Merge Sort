@@ -1,4 +1,4 @@
-void MergeSort(int[] arr)
+public static void MergeSort(int[] arr)
 {
     if (arr.Length <= 1) return;
 
@@ -12,7 +12,7 @@ void MergeSort(int[] arr)
     Merge(arr, left, right);
 }
 
-void Merge(int[] arr, int[] left, int[] right)
+private static void Merge(int[] arr, int[] left, int[] right)
 {
     int i = 0, j = 0, k = 0;
     while (i < left.Length && j < right.Length)
